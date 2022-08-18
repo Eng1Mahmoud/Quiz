@@ -11,14 +11,13 @@ function App() {
   let Q = quiz.questions[numQ].question; // current questions
   let Ans = quiz.questions[numQ].answers;// all answer
   let Corect = quiz.questions[numQ].correctIndex; //corect answer
-
+console.log(score)
   const changeQ = () => { // this function count number of questions and control corecr answer or false
     if (numQ < lenghts - 1) {
       setNumQ((prev) => ++prev);
     }
     if (numQ === lenghts - 2) {
       SetFinsh(false);
-      console.log("hj");
     }
     for (let i = 0; i < ref.current.children.length; i++) {
       ref.current.children[i].classList.remove("pad");
@@ -68,9 +67,19 @@ function App() {
                     onClick={(e) => {
                       console.log(e.target);
 
-                      if (q === Ans[Corect]) {
-                        e.target.classList.add("corect");
-                        SetScore((prev) => ++prev);
+                      if (q === Ans[Corect] ) {
+                        if( (e.target.classList.contains("corect"))){
+                          SetScore((prev) => prev);
+                        }
+                        else{
+                          SetScore((prev) => ++prev);
+                        }
+                        e.target.classList.add("corect")
+                       
+                       
+                     
+                        
+                      
                       } else {
                         e.target.classList.add(`pad`);
                         corects();
