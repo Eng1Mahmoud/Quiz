@@ -5,14 +5,15 @@ function App() {
   const ref = useRef(null);
   const [numQ, setNumQ] = useState(0); // count number questions
   const [score, SetScore] = useState(0); //  count number of corect answer
-  const [finsh, SetFinsh] = useState(true);  // to finsh quiz
+  const [finsh, SetFinsh] = useState(true); // to finsh quiz
   const [showScore, SetshowScore] = useState(false); // control to show score
   const lenghts = quiz.questions.length;
   let Q = quiz.questions[numQ].question; // current questions
-  let Ans = quiz.questions[numQ].answers;// all answer
+  let Ans = quiz.questions[numQ].answers; // all answer
   let Corect = quiz.questions[numQ].correctIndex; //corect answer
-console.log(score)
-  const changeQ = () => { // this function count number of questions and control corecr answer or false
+  console.log(score);
+  const changeQ = () => {
+    // this function count number of questions and control corecr answer or false
     if (numQ < lenghts - 1) {
       setNumQ((prev) => ++prev);
     }
@@ -26,11 +27,13 @@ console.log(score)
     ref.current.children[Corect].classList.remove("corect");
   };
 
-  const corects = () => { // show corect answer
+  const corects = () => {
+    // show corect answer
     ref.current.children[Corect].classList.add("corect");
   };
 
-  const updatScore = () => { // control show score after finsh quiz
+  const updatScore = () => {
+    // control show score after finsh quiz
     SetshowScore(true);
   };
   return (
@@ -42,14 +45,15 @@ console.log(score)
             <h2>
               Answered <span>{score}</span> question out of {lenghts} questions
             </h2>
-            <button onClick={
-              () => {SetshowScore(false) 
-              setNumQ(0)
-              SetScore(0)
-              SetFinsh(true)
-              }
-              }
-            >Try Agin</button>
+            <button
+              onClick={() => {
+                SetshowScore(false);
+                setNumQ(0);
+                SetScore(0);
+                SetFinsh(true);
+              }}>
+              Try Agin
+            </button>
           </div>
         ) : (
           <div className="quiz">
@@ -65,25 +69,30 @@ console.log(score)
                     className={`answer`}
                     key={i}
                     onClick={(e) => {
-                      console.log(e.target);
-
-                      if (q === Ans[Corect] ) {
-                        if( (e.target.classList.contains("corect"))){
-                          SetScore((prev) => prev);
+                      let displayed = false
+                      for (let i = 0; i < ref.current.children.length; i++) {
+                        if(ref.current.children[i].classList.contains("pad") ||ref.current.children[i].classList.contains("corect") ){
+                          console.log("displayed")
+                          displayed=true;
                         }
-                        else{
+                      }
+                      if(displayed){
+                        console.log("display")
+                      }
+                      else{
+                          if (q === Ans[Corect]) {
+                        if (e.target.classList.contains("corect")) {
+                          SetScore((prev) => prev);
+                        } else {
                           SetScore((prev) => ++prev);
                         }
-                        e.target.classList.add("corect")
-                       
-                       
-                     
-                        
-                      
+                        e.target.classList.add("corect");
                       } else {
                         e.target.classList.add(`pad`);
                         corects();
+                        }
                       }
+                  
                     }}>
                     {q}
                   </div>
@@ -115,5 +124,3 @@ console.log(score)
 }
 
 export default App;
-
-
